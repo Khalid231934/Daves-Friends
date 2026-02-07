@@ -17,12 +17,11 @@ This diagram shows the Discord bot as the system, interacting with the external 
 The data flow diagram shows how Discord users interact with our bot through slash commands. Commands are routed through the bot's lobby/game processes, which update the stored game state and return results as Discord messages.
 <img width="1584" height="752" alt="image" src="https://github.com/user-attachments/assets/cabd33b5-82ae-4aa0-8c34-383a931c3b68" />
 
+---
+## Use Case Diagram (Khalid Abdullahi)
+The diagram shows how players interact with the UNO Discord Bot through lobby commands, gameplay commands, and game logic based on what we have now.
+![UNO Bot Use Case Diagram](Usecase.png)
+
+---
 ## <Diagram Type> (<Name>)
 <1–2 sentences explaining what this diagram shows>
-
-## Use Case Diagram (Khalid Abdullahi)
-The diagram shows how players interact with the UNO Discord Bot through lobby commands, gameplay commands, and game logic based what we have now.
-Figure X  
-  
-![<diagram name>](<path or link to image>)
-
