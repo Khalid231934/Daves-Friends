@@ -56,6 +56,25 @@ What I analyzed:
    - Suggested Fix: Split into various per-card handlers and create tests for each of those effects.
 ---
 
+### Khalid – Test Coverage Analysis
+
+What I analyzed:
+- I ran an automated test coverage analysis using `pytest-cov` on the deck module.
+- I reviewed the coverage report to identify any untested lines of code.
+- The main file I focused on was `deck.py`.
+
+1. Issue: One line in the deck module is not covered by automated tests.
+   - Location: `deck.py` (line 88).
+   - Problem: The coverage report shows 98% coverage, leaving one line untested.
+   - Impact: This uncovered line could result in a small edge-case bug during gameplay if it behaves unexpectedly.
+   - Suggested Fix: Add an additional unit test that specifically triggers and verifies this remaining line of code.
+
+What I added:
+- Installed `pytest` and `pytest-cov`.
+- Generated a coverage report showing 98% coverage for `deck.py`.
+- Verified that all 5 existing tests pass successfully.
+  
+---
 ### Adam Khan - Unit tests
 What I analyzed:
 - `models/game_state.py`
@@ -88,6 +107,7 @@ What I added (if applicable):
 - Unit tests verifying turn advancement after drawing
 - Confirmed that all tests pass with the existing test suite
 ---
+
 ### Rio Dumecquias – Cohesion and Coupling
 What I analyzed:
 - Files analyzed: `uno.py`, `controllers/lobby.py`, `deck.py`, `models/game_state.py`
@@ -101,7 +121,7 @@ Issues Found:
    - Problem: This module handles command execution, lobby lifecycle management, shared state storage, and formatting logic in the same file. This reduces cohesion because one module performs several different roles instead of focusing on a single responsibility.
    - Impact: Harder to maintain as features grow. Increases risk that a change in formatting or state handling affects command behaviour.
    - Suggested Fix: Keep LobbyCog responsible only for handling commands and move lobby storage and lifecycle logic into a LobbyManager class.
-
+  
 2. Issue: Lobby lifecycle rules and storage are enforced across multiple command handlers instead of a single owner component.
    - Location: `controllers/lobby.py`: Line #50. (lobbies: Dict[int, Lobby] = {}
    - Problem: Lobby existence checks, permission rules, and phase checks, are implemented separately inside multiple commands. Each command directly accesses and modifies the shared global lobbies dictionary instead of keeping lifecycle responsibilities to a single manager.
