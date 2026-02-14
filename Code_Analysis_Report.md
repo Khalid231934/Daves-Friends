@@ -29,6 +29,7 @@ Issues Found (You can add more than 3):
 What I added (if applicable):
 - Added tests for valid, invalid, and edge case inputs.
 - Verified tests pass.
+---
 
 ### Alen Salaka – Cyclomatic Complexity
 What I analyzed:
@@ -55,8 +56,6 @@ What I analyzed:
    - Suggested Fix: Split into various per-card handlers and create tests for each of those effects.
 ---
 
-
-
 ### Khalid – Test Coverage Analysis
 
 What I analyzed:
@@ -74,3 +73,37 @@ What I added:
 - Installed `pytest` and `pytest-cov`.
 - Generated a coverage report showing 98% coverage for `deck.py`.
 - Verified that all 5 existing tests pass successfully.
+  
+---
+### Adam Khan - Unit tests
+What I analyzed:
+- `models/game_state.py`
+- Core game logic including player management, game start validation, draw behavior, and turn progression
+- Error handling and state transitions
+
+Issues Found (You can add more than 3):
+
+1. Issue: No automated tests covering GameState validation logic
+   - Location: `models/game_state.py`
+   - Problem: Critical validation rules (e.g., minimum player requirement, duplicate players) were not automatically tested.
+   - Impact: Future changes could unintentionally break core game rules without being detected.
+   - Suggested Fix: Add unit tests validating game start conditions and duplicate player prevention.
+
+2. Issue: Turn advancement logic lacked verification
+   - Location: `draw_and_pass()` method
+   - Problem: No tests ensured that drawing correctly advances the turn.
+   - Impact: A regression could cause incorrect turn order without detection.
+   - Suggested Fix: Add unit tests verifying turn transitions after draw actions.
+
+3. Issue: Limited coverage of phase-based state behavior
+   - Location: `GameState.start_game()` and `draw_and_pass()`
+   - Problem: No tests ensured that the game remains in the correct phase during valid actions.
+   - Impact: Incorrect phase transitions could break gameplay flow.
+   - Suggested Fix: Add tests confirming phase remains PLAYING after valid draws.
+  
+What I added (if applicable):
+- Unit tests validating that the game cannot start with fewer than 2 players 
+- Unit tests preventing duplicate players from being added
+- Unit tests verifying turn advancement after drawing
+- Confirmed that all tests pass with the existing test suite
+---
