@@ -136,3 +136,22 @@ Issues Found:
    -    Create a TurnManager which handles the current player, direction, and advancing turns.
    -    Create a RuleEngine which validates move checks and special-cards.
 ---
+
+
+### Anna – Fuzzer
+What I analyzed:
+- I used a fuzzer to analyze deck.py
+
+Issues Found (You can add more than 3):
+
+1. Issue:
+   - Location: deck.py
+   - Problem: number cards can't be played on cards without numbers
+   - Impact: makes most games unplayable
+   - Suggested Fix: don't check for numbers if the card doesn't have it
+
+  
+What I added (if applicable):
+- I updated the faulty code
+- Added tests to prevent this from being a problem again
+---
