@@ -83,6 +83,9 @@ def can_play_card(top: Card, playing: Card) -> bool:
         case Skip(c) | Reverse(c) | DrawTwo(c):
             return c == top.color
         case Number(c, n):
-            return c == top.color or n == top.number
+            try:
+                return c == top.color or n == top.number
+            except AttributeError:
+                return c == top.color
 
     return False
