@@ -4,6 +4,12 @@ name = "uno_discord"
 version = "1.0"
 dependencies = ["discord", "dotenv", "pytest"]
 
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "atheris",
+]
+
 [tool.setuptools]
 packages = ["controllers", "models", "UI", "utils", "repos", "services", "tests"]
 py-modules = ["__init__"]
