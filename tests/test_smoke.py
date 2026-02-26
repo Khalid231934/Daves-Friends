@@ -1,5 +1,7 @@
 import importlib
 
+from models import deck
+
 
 def test_smoke_imports():
     """
@@ -20,8 +22,6 @@ def test_smoke_deck_can_build_and_draw():
     """
     Smoke test: deck can be created and can draw at least one card.
     """
-    from models import deck
-
     if hasattr(deck, "Deck"):
         d = deck.Deck()
         assert d is not None

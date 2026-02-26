@@ -1,9 +1,7 @@
-from typing import Dict, List
+import discord
 
 from models.game_state import GameState
 from models.lobby_model import Lobby
-import discord
-
 
 class LobbyRepository:
     def __init__(self):

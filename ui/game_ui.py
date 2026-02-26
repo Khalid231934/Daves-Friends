@@ -1,15 +1,16 @@
 from __future__ import annotations
-from ui.interactions import Interactions
+from typing import TYPE_CHECKING
+
 import discord
+
+from ui.interactions import Interactions
 
 from models.game_state import GameError, Phase
 from models.lobby_model import Lobby
 from services.game_service import GameService
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from views.renderer import Renderer
-
 
 
 class GameUI(Interactions):

@@ -1,7 +1,8 @@
 import discord
-from models.lobby_model import Lobby
 from utils.utils import mention
+from utils.card_image import get_card_filename
 from views.base_views import BaseViews
+from models.lobby_model import Lobby
 from models.deck import (
     NUMBER_EMOJIS, COLOR_EMOJIS,
     Number, Skip, Reverse, DrawTwo, Wild, DrawFourWild, Card
@@ -24,8 +25,6 @@ def _card_display(card: Card) -> str:
 
 class GameViews(BaseViews):
     def game_embed(self, lobby: Lobby) -> tuple[discord.Embed, discord.File | None]:
-        from utils.card_image import get_card_filename
-
         embed = self._build_embed(
             title="Game by " + lobby.user.name,
             desc="A game of UNO is in progress!",

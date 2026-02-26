@@ -1,15 +1,12 @@
 from __future__ import annotations
 
-from discord.ext.commands.parameters import empty
-
-from models.deck import Card, Number, Skip, Reverse, DrawTwo, Wild, DrawFourWild, Color
+import asyncio
 
 import discord
 from discord import app_commands
 from discord.ext import commands
 
-import asyncio
-
+from models.deck import Card, Number, Skip, Reverse, DrawTwo, Wild, DrawFourWild, Color
 from models.game_state import GameError
 from repos.lobby_repo import LobbyRepository
 from services.game_service import GameService

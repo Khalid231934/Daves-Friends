@@ -2,6 +2,8 @@ import discord
 
 from ui.end_ui import EndUI
 from ui.game_ui import GameUI
+from ui.lobby_ui import LobbyUI
+from ui.interactions import Interactions
 from models.game_state import Phase
 from models.lobby_model import Lobby
 from services.game_service import GameService
@@ -10,8 +12,6 @@ from views.end_views import EndViews
 from views.game_views import GameViews
 from views.hand_views import HandViews
 from views.lobby_views import LobbyViews
-from ui.lobby_ui import LobbyUI
-from ui.interactions import Interactions
 
 
 class Renderer:

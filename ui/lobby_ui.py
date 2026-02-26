@@ -1,15 +1,12 @@
 from __future__ import annotations
-
-from pyexpat.errors import messages
+from typing import TYPE_CHECKING
+import asyncio
 
 import discord.ui
 from models.game_state import GameError
 from services.lobby_service import LobbyService
-from utils.utils import require_channel_id, mention
 from views.lobby_views import LobbyViews
 from .interactions import Interactions
-from typing import TYPE_CHECKING
-import asyncio
 
 if TYPE_CHECKING:
     from views.renderer import Renderer

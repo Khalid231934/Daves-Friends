@@ -1,7 +1,8 @@
+import discord
+
 from views.base_views import BaseViews
 from models.lobby_model import Lobby
 from utils.utils import mention
-import discord
 
 
 class EndViews(BaseViews):
