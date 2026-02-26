@@ -1,4 +1,7 @@
 from __future__ import annotations
+
+from pyexpat.errors import messages
+
 import discord.ui
 from models.game_state import GameError
 from services.lobby_service import LobbyService
@@ -6,6 +9,7 @@ from utils.utils import require_channel_id, mention
 from views.lobby_views import LobbyViews
 from .interactions import Interactions
 from typing import TYPE_CHECKING
+import asyncio
 
 if TYPE_CHECKING:
     from views.renderer import Renderer
@@ -68,8 +72,18 @@ class LobbyUI(Interactions):
 
         await self._renderer.update_from_interaction(interaction, lobby)
 
+        # Dm every player
+        bot = interaction.client
+        guild = interaction.guild.id
+        for user_id in lobby.game.players():
+            user = await bot.fetch_user(user_id)
+            hand = lobby.game.hand(user_id)
+            embed = self._renderer.hand_views.hand_embed(hand, optional_message=f"""This is your starting hand.
+            \nLink to Game: https://discord.com/channels/{guild}/{cid}/{lobby.main_message}""")
+
+            await user.send(embed=embed)
+
         # Trigger AFK Timer
-        import asyncio
         cog = interaction.client.get_cog("UnoCog")
         if cog:
             asyncio.create_task(cog._run_afk_timer(

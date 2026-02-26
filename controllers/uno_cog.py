@@ -17,6 +17,7 @@ from services.lobby_service import LobbyService
 from utils.utils import require_channel_id
 from views.end_views import EndViews
 from views.game_views import GameViews
+from views.hand_views import HandViews
 from views.lobby_views import LobbyViews
 from views.renderer import Renderer
 
@@ -48,6 +49,7 @@ class UnoCog(commands.Cog):
         self.lobby_views = LobbyViews()
         self.game_views = GameViews()
         self.end_views = EndViews()
+        self.hand_views = HandViews()
 
         # Repos
         self.lobby_repo = LobbyRepository()
@@ -57,7 +59,7 @@ class UnoCog(commands.Cog):
         self.game_service = GameService(self.lobby_service)
 
         # Misc
-        self._renderer = Renderer(self.lobby_views, self.game_views, self.end_views, self.lobby_service, self.game_service)
+        self._renderer = Renderer(self.lobby_views, self.game_views, self.end_views, self.hand_views, self.lobby_service, self.game_service)
 
     @app_commands.command(name="create", description="Create a lobby in this channel.")
     async def create(self, interaction: discord.Interaction) -> None:
@@ -109,6 +111,15 @@ class UnoCog(commands.Cog):
 
         await self._renderer.update_by_message_id(self.bot, cid, main_msg_id, lobby)
         await interaction.response.send_message("Successfully played card!", ephemeral=True)
+
+        bot = interaction.client
+        guild = interaction.guild.id
+        user = await bot.fetch_user(interaction.user.id)
+        hand = lobby.game.hand(interaction.user.id)
+        embed = self.hand_views.hand_embed(hand, optional_message=f"""This is your new hand after your latest action.
+            Link to Game: https://discord.com/channels/{guild}/{cid}/{lobby.main_message}""")
+
+        await user.send(embed=embed)
 
     async def _run_afk_timer(self, channel_id: int, player_id: int, start_turn_count: int):
         await asyncio.sleep(60)
