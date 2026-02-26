@@ -112,6 +112,15 @@ class UnoCog(commands.Cog):
         await self._renderer.update_by_message_id(self.bot, cid, main_msg_id, lobby)
         await interaction.response.send_message("Successfully played card!", ephemeral=True)
 
+        bot = interaction.client
+        guild = interaction.guild.id
+        user = await bot.fetch_user(interaction.user.id)
+        hand = lobby.game.hand(interaction.user.id)
+        embed = self.hand_views.hand_embed(hand, optional_message=f"""This is your new hand after your latest action.
+            Link to Game: https://discord.com/channels/{guild}/{cid}/{lobby.main_message}""")
+
+        await user.send(embed=embed)
+
     async def _run_afk_timer(self, channel_id: int, player_id: int, start_turn_count: int):
         await asyncio.sleep(60)
 
