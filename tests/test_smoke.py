@@ -9,6 +9,7 @@ def test_smoke_imports():
         "models.deck",
         "models.game_state",
         "services.lobby_service",
+        "ui",
     ]
 
     for m in modules:

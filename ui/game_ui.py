@@ -1,5 +1,5 @@
 from __future__ import annotations
-from UI.interactions import Interactions
+from ui.interactions import Interactions
 import discord
 
 from models.game_state import GameError, Phase
