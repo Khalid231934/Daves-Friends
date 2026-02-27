@@ -32,6 +32,10 @@ class GameUI(Interactions):
     async def call_uno(
         self, interaction: discord.Interaction, _button: discord.ui.Button
     ) -> None:
+        """
+        Calls Uno, protecting the caller if vulnerable or catching another player who
+        failed to call it.
+        """
         await interaction.response.defer(ephemeral=True)
 
         try:
