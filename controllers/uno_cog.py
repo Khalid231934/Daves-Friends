@@ -115,6 +115,7 @@ class UnoCog(commands.Cog):
             return
 
         await self._renderer.update_by_message_id(self.bot, cid, main_msg_id, lobby)
+        await self._dm_current_player_turn(lobby, cid)
         await interaction.response.send_message(
             "Successfully played card!", ephemeral=True
         )
@@ -130,6 +131,34 @@ class UnoCog(commands.Cog):
         )
 
         await user.send(embed=embed)
+
+    async def _dm_current_player_turn(self, lobby, channel_id: int) -> None:
+        """
+        DMs the current player when it becomes their turn, including a link to the game
+        """
+
+        game = lobby.game
+        if game.phase().name != "PLAYING":
+            return
+
+        current = game.current_player()
+        if game.is_bot(current):
+            return
+
+        channel = self.bot.get_channel(channel_id)
+        if channel is None or channel.guild is None:
+            return
+
+        guild_id = channel.guild.id
+        link = f"https://discord.com/channels/{guild_id}/{channel_id}/{lobby.main_message}"
+
+        try:
+            user = await self.bot.fetch_user(current)
+            await user.send(
+                f"It's your turn!\nGo to the game: {link}"
+            )
+        except discord.Forbidden:
+            return
 
     async def run_afk_timer(
         self, channel_id: int, player_id: int, start_turn_count: int
