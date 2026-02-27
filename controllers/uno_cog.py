@@ -134,9 +134,8 @@ class UnoCog(commands.Cog):
 
     async def _dm_current_player_turn(self, lobby, channel_id: int) -> None:
         """
-        DMs the current player when it becomes their turn, including a link to the game
+        DMs the current player when it becomes their turn, including a link to the game.
         """
-
         game = lobby.game
         if game.phase().name != "PLAYING":
             return
@@ -145,61 +144,64 @@ class UnoCog(commands.Cog):
         if game.is_bot(current):
             return
 
+        if not getattr(lobby, "main_message", None):
+            return
+
         channel = self.bot.get_channel(channel_id)
         if channel is None or channel.guild is None:
             return
 
-        guild_id = channel.guild.id
-        link = f"https://discord.com/channels/{guild_id}/{channel_id}/{lobby.main_message}"
+        link = (
+            f"https://discord.com/channels/"
+            f"{channel.guild.id}/{channel_id}/{lobby.main_message}"
+        )
 
         try:
             user = await self.bot.fetch_user(current)
-            await user.send(
-                f"It's your turn!\nGo to the game: {link}"
-            )
+            await user.send(f"🎮 It's your turn!\nLink to Game: {link}")
         except discord.Forbidden:
-            return
+            pass
 
-    async def run_afk_timer(
-        self, channel_id: int, player_id: int, start_turn_count: int
-    ):
-        """
-        Skips a player's turn if they don't play in 60 seconds.
-        """
-        await asyncio.sleep(60)
-
-        try:
-            lobby = self.lobby_service.get_lobby(channel_id)
-            game = lobby.game
-        except GameError:
-            return
-
-        if game.phase().name != "PLAYING":
-            return
-
-        if (
-            game.current_player() == player_id
-            and game.state["turn_count"] == start_turn_count
+        async def run_afk_timer(
+            self, channel_id: int, player_id: int, start_turn_count: int
         ):
+            """
+            Skips a player's turn if they don't play in 60 seconds.
+            """
+            await asyncio.sleep(60)
+
             try:
-                game.draw_and_pass(player_id)
+                lobby = self.lobby_service.get_lobby(channel_id)
+                game = lobby.game
+            except GameError:
+                return
 
-                channel = self.bot.get_channel(channel_id)
-                if channel:
-                    await channel.send(
-                        f" <@{player_id}> was AFK. They drew a card and was skipped."
-                    )
+            if game.phase().name != "PLAYING":
+                return
 
-                    embeds, view, files = await self._renderer.render(lobby)
-                    await channel.send(embeds=embeds, view=view, files=files)
+            if (
+                game.current_player() == player_id
+                and game.state["turn_count"] == start_turn_count
+            ):
+                try:
+                    game.draw_and_pass(player_id)
 
-                    asyncio.create_task(
-                        self.run_afk_timer(
-                            channel_id, game.current_player(), game.state["turn_count"]
+                    channel = self.bot.get_channel(channel_id)
+                    if channel:
+                        await channel.send(
+                            f" <@{player_id}> was AFK. They drew a card and was skipped."
                         )
-                    )
-            except GameError as e:
-                print(f"AFK Timer Error: {e}")
+
+                        embeds, view, files = await self._renderer.render(lobby)
+                        await channel.send(embeds=embeds, view=view, files=files)
+
+                        asyncio.create_task(
+                            self.run_afk_timer(
+                                channel_id, game.current_player(), game.state["turn_count"]
+                            )
+                        )
+                except GameError as e:
+                    print(f"AFK Timer Error: {e}")
 
 
 async def setup(bot: commands.Bot) -> None:
