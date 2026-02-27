@@ -47,6 +47,7 @@ def test_draw_advances_turn():
     assert g.current_player() == result.next_player
     assert g.phase() == Phase.PLAYING
 
+
 def test_add_bot():
     """
     Test adding a bot to a game, ensuring IDs are sequential negative integers.
@@ -63,6 +64,7 @@ def test_add_bot():
     assert g.state["players"][1] == -1
     assert g.state["players"][3] == -2
     assert g.state["players"][4] == -3
+
 
 def test_is_bot():
     """
@@ -83,5 +85,3 @@ def test_is_bot():
     assert not g.is_bot(players[2])
     assert g.is_bot(players[3])
     assert g.is_bot(players[4])
-
-

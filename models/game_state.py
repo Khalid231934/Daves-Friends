@@ -92,7 +92,7 @@ class GameState:
         return {
             "phase": Phase.LOBBY,  # stores enum
             "players": [],  # stores discord user ids
-            "bots": [], # the indices of the users which are bots
+            "bots": [],  # the indices of the users which are bots
             "hands": {},  # stores user id -> list with cards
             "deck": [],  # list with cards
             "discard": [],
