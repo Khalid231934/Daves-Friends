@@ -8,7 +8,14 @@ import random
 from enum import Enum, auto
 
 from models.deck import Card, Color, Wild, DrawFourWild, can_play_card
-from models.game_state import GameError
+
+
+class BotError(Exception):
+    """
+    An error that occurs within the bot. Currently only happens if an invalid strategy is chosen.
+    """
+    def __init__(self, msg: str):
+        super().__init__(msg)
 
 
 class Strategy(Enum):
@@ -19,7 +26,7 @@ class Strategy(Enum):
     RANDOM = auto()
 
 
-def play_card(strategy: Strategy, hand: list[Card], top: Card) -> Card | None:
+def play_card(strategy: Strategy, hand: list[Card], top: Card):
     """
     Chooses a card from the hand provided according to the bot's strategy, returning it.
     It returns None if it can't find any playable cards. Also randomly selects color for wilds.
@@ -31,12 +38,13 @@ def play_card(strategy: Strategy, hand: list[Card], top: Card) -> Card | None:
             valid_cards.append(i)
 
     if len(valid_cards) == 0:
-        return None
+        return (None, None)
 
     if strategy == Strategy.RANDOM:
-        index = random.randint(0, len(valid_cards) - 1)
+        random.shuffle(valid_cards)
+        index = valid_cards[0]
     else:
-        raise GameError("Invalid bot strategy chosen")
+        raise BotError("Invalid bot strategy chosen")
 
     card = hand[index]
 
@@ -44,5 +52,6 @@ def play_card(strategy: Strategy, hand: list[Card], top: Card) -> Card | None:
         colors = [Color.RED, Color.YELLOW, Color.BLUE, Color.GREEN]
         random.shuffle(colors)
         card.color = colors[0]
+        return (index, card.color)
 
-    return card
+    return (index, None)

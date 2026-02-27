@@ -22,7 +22,7 @@ from models.deck import (
     DrawTwo,
     Number,
 )
-
+from models import bot
 
 class Phase(Enum):
     LOBBY = auto()
@@ -246,6 +246,21 @@ class GameState:
         self._apply_effects_and_advance(played, res)
         res.next_player = self.current_player()
         return res
+
+    def play_bot(self):
+        if not self.is_bot(self.current_player()):
+            raise GameError("Current player isn't a bot")
+
+        user_id = self.current_player()
+        top = self.top_card()
+
+        hand = self.state["hands"][user_id]
+        (index, color) = bot.play_card(bot.Strategy.RANDOM, hand, top)
+
+        if index is None:
+            self.draw_and_pass(user_id)
+        else:
+            self.play(user_id, index, color)
 
     def draw_and_pass(self, user_id: int, amt: int = 1) -> DrawResult:
         if self.phase() != Phase.PLAYING:

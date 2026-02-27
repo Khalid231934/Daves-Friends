@@ -13,7 +13,7 @@ def test_play_choose():
     top = Number(Color.YELLOW, 10)
     hand = [Wild(None), Number(Color.BLUE, 5), Number(Color.GREEN, 0), Skip(Color.RED)]
 
-    card = bot.play_card(bot.Strategy.RANDOM, hand, top)
+    (index, color) = bot.play_card(bot.Strategy.RANDOM, hand, top)
 
-    assert isinstance(card, Wild)
-    assert card.color is not None
+    assert index == 0
+    assert color is not None

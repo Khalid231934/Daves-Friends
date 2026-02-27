@@ -85,3 +85,22 @@ def test_is_bot():
     assert not g.is_bot(players[2])
     assert g.is_bot(players[3])
     assert g.is_bot(players[4])
+
+def test_run_bots():
+    """
+    Make sure bots run smoothly playing with each other.
+    """
+    g = GameState()
+    g.add_bot()
+    g.add_bot()
+    g.add_bot()
+
+    g.start_game()
+
+    for _ in range(0, 50):
+        try:
+            g.play_bot()
+        except GameError as e:
+            if str(e) == "Game is not currently playing.":
+                break
+            raise e
