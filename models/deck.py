@@ -13,6 +13,7 @@ class Color(Enum):
     """
     The color of an Uno card. Can be red, yellow, blue, or green.
     """
+
     RED = auto()
     YELLOW = auto()
     BLUE = auto()
@@ -23,6 +24,7 @@ class Deck:
     """
     A set of cards and a method to generate cards for a deck.
     """
+
     cards = []
 
     def __init__(self):
@@ -69,6 +71,7 @@ class Number:
     """
     A number card, which has a particular color and number.
     """
+
     color: Color
     number: int
 
@@ -78,6 +81,7 @@ class Wild:
     """
     A wild card, which may or may not have a color depending on whether it has been played.
     """
+
     color: Color | None = None
 
 
@@ -87,6 +91,7 @@ class DrawFourWild:
     A plus four wild card, which may or may not have a color depending on whether it has been
     played.
     """
+
     color: Color | None = None
 
 
@@ -95,6 +100,7 @@ class Skip:
     """
     A skip card, which has a color. Is considered one of the "Special" cards.
     """
+
     color: Color
 
 
@@ -103,6 +109,7 @@ class DrawTwo:
     """
     A +2 card, which has a color. Is considered one of the "Special" cards.
     """
+
     color: Color
 
 
@@ -111,6 +118,7 @@ class Reverse:
     """
     A reverse card, which has a color. It is considered one of the "Special" cards.
     """
+
     color: Color
 
 
@@ -143,7 +151,9 @@ def can_play_card(top: Card, playing: Card) -> bool:
     rules. Wilds can be played on any card, special cards can be placed on other cards with the
     same color or type, and number cards can be placed on other cards with the same color or number.
     """
-    if playing == top or (type(top) is type(playing) and not isinstance(playing, Number)):
+    if playing == top or (
+        type(top) is type(playing) and not isinstance(playing, Number)
+    ):
         return True
 
     can_play = False

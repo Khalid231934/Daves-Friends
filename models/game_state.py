@@ -1,3 +1,10 @@
+"""
+Provides classes and functions related to the operation of a game.
+"""
+
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-function-docstring
+
 from dataclasses import dataclass, field
 from typing import Any
 from enum import Enum, auto
