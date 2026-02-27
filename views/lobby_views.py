@@ -1,6 +1,7 @@
 """
 Provides a view into a game lobby.
 """
+
 import discord
 from models.lobby_model import Lobby
 from utils.utils import mention

@@ -1,6 +1,7 @@
 """
 Provides a view into a player's hand.
 """
+
 import discord
 
 from views.base_views import BaseViews

@@ -1,6 +1,7 @@
 """
 Provides a view into the end of a game.
 """
+
 import discord
 
 from views.base_views import BaseViews
